@@ -11,6 +11,7 @@ import java.util.MissingFormatArgumentException;
 public class Encrypt {
 
     // true / false params
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private static LinkedList<String> switches = new LinkedList<>();
 
     private static HashMap<String, String> programParams = new HashMap<>();
