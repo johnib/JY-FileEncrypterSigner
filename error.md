@@ -1,7 +1,7 @@
-Encrypt class
+FileEncrypt class
 
 Run:
-java Encrypt -password <pass> -file <file path>
+java FileEncrypt -password <pass> -file <file path>
 
 Options:
     -password           Used as a private key

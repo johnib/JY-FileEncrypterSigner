@@ -1,4 +1,4 @@
-#Encrypt Class
+#FileEncrypt Class
 
 ##Description:
 Encrypts a file using asymmetric algorithm of your choice. 
@@ -6,5 +6,5 @@ Encrypts a file using asymmetric algorithm of your choice.
 ##Run:
 
 ```
-java Encrypt -password <pass> -file <file path>
+java FileEncrypt -password <pass> -file <file path>
 ```

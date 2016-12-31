@@ -14,6 +14,7 @@ public class StreamDigester implements IStreamDigester {
         messageDigest = md;
     }
 
+    @Override
     public byte[] digestStream(InputStream stream) throws IOException {
         byte[] buffer = new byte[bufferSize];
         messageDigest.reset();

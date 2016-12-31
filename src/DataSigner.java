@@ -26,6 +26,7 @@ class DataSigner implements ISigner {
      * @throws InvalidKeyException for privateKey issues
      * @throws SignatureException  for Signing issues
      */
+    @Override
     public byte[] sign(byte[] data, PrivateKey privateKey) throws InvalidKeyException, SignatureException {
         signature.initSign(privateKey);
         signature.update(data);
@@ -56,6 +57,7 @@ class DataSigner implements ISigner {
      * @throws InvalidKeyException for publicKey issues
      * @throws SignatureException  for Signing issues¬
      */
+    @Override
     public boolean verify(byte[] data, byte[] signatureHash, PublicKey publicKey) throws InvalidKeyException, SignatureException {
         signature.initVerify(publicKey);
         signature.update(data);
