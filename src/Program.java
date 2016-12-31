@@ -1,7 +1,11 @@
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.*;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,10 +24,10 @@ public class Program {
     private static final String FILE_PARAM_NAME = "file";
 
     @SuppressWarnings("FieldCanBeLocal")
-    private static String guide_message = "Encrypt class\n" +
+    private static String guide_message = "FileEncrypt class\n" +
             "\n" +
             "Run:\n" +
-            "java Encrypt -password <pass> -file <file path>\n" +
+            "java FileEncrypt -password <pass> -file <file path>\n" +
             "\n" +
             "Options:\n" +
             "    -password           Used as a private key\n" +
@@ -47,7 +51,7 @@ public class Program {
         }
 
         try {
-            Utils.ensureFileExists(programParams.get("file"));
+            Utils.ensurePathReadable(Paths.get(programParams.get("file")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -85,6 +89,27 @@ public class Program {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    // TODO: remove
+    static void testFileEncryptDecrypt() throws IOException {
+
+        try {
+            SecretKeySpec k = new SecretKeySpec("temp1234temp1234".getBytes(), "AES");
+
+            Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+
+            IFileEncrypt fe = new FileEncrypt(c);
+            fe.encrypt(Paths.get("./file.txt"), Paths.get("./encrypted"), k);
+
+            IFileDecrypt fd = new FileDecrypt(c);
+            fd.decrypt(Paths.get("./encrypted"), Paths.get("./decrypted.txt"), k, fe.getIV());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Files.delete(Paths.get("./encrypted"));
+            Files.delete(Paths.get("./decrypted.txt"));
         }
     }
 }
