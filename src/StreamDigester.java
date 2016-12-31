@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
-class StreamDigester {
+public class StreamDigester implements IStreamDigester {
 
     private static final int bufferSize = 1024; // bytes
     private MessageDigest messageDigest;
@@ -14,7 +14,7 @@ class StreamDigester {
         messageDigest = md;
     }
 
-    byte[] digestStream(InputStream stream) throws IOException {
+    public byte[] digestStream(InputStream stream) throws IOException {
         byte[] buffer = new byte[bufferSize];
         messageDigest.reset();
 

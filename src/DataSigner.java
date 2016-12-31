@@ -4,7 +4,7 @@ import java.security.*;
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
 @SuppressWarnings("WeakerAccess")
-class DataSigner {
+class DataSigner implements ISigner {
 
     private final Signature signature;
 
@@ -26,7 +26,7 @@ class DataSigner {
      * @throws InvalidKeyException for privateKey issues
      * @throws SignatureException  for Signing issues
      */
-    byte[] sign(byte[] data, PrivateKey privateKey) throws InvalidKeyException, SignatureException {
+    public byte[] sign(byte[] data, PrivateKey privateKey) throws InvalidKeyException, SignatureException {
         signature.initSign(privateKey);
         signature.update(data);
 
@@ -42,7 +42,7 @@ class DataSigner {
      * @throws InvalidKeyException for privateKey issues
      * @throws SignatureException  for Signing issues
      */
-    byte[] sign(String data, PrivateKey privateKey) throws SignatureException, InvalidKeyException {
+    public byte[] sign(String data, PrivateKey privateKey) throws SignatureException, InvalidKeyException {
         return sign(data.getBytes(), privateKey);
     }
 
@@ -56,7 +56,7 @@ class DataSigner {
      * @throws InvalidKeyException for publicKey issues
      * @throws SignatureException  for Signing issues¬
      */
-    boolean verify(byte[] data, byte[] signatureHash, PublicKey publicKey) throws InvalidKeyException, SignatureException {
+    public boolean verify(byte[] data, byte[] signatureHash, PublicKey publicKey) throws InvalidKeyException, SignatureException {
         signature.initVerify(publicKey);
         signature.update(data);
 
@@ -73,7 +73,7 @@ class DataSigner {
      * @throws InvalidKeyException for publicKey issues
      * @throws SignatureException  for Signing issues¬
      */
-    boolean verify(String data, byte[] signatureHash, PublicKey publicKey) throws SignatureException, InvalidKeyException {
+    public boolean verify(String data, byte[] signatureHash, PublicKey publicKey) throws SignatureException, InvalidKeyException {
         return verify(data.getBytes(), signatureHash, publicKey);
     }
 }
