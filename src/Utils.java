@@ -9,6 +9,8 @@ import java.util.MissingFormatArgumentException;
  */
 final class Utils {
 
+    private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
+
     /**
      * Static class
      */
@@ -60,8 +62,18 @@ final class Utils {
                 i++;
 
                 String paramValue = params[i];
-                programParams.put(param, paramValue);
+                programParams.put(param.substring(1), paramValue);
             }
         }
+    }
+
+    static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 }
