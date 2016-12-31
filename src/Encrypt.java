@@ -1,5 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.MissingFormatArgumentException;
 
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
@@ -12,10 +15,39 @@ public class Encrypt {
 
     private static HashMap<String, String> programParams = new HashMap<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         parseParams(args);
 
         programParams.forEach((param, value) -> System.out.println(String.format("%s: %s", param, value)));
+
+        ensureParamDefinition("password");
+        ensureParamDefinition("file");
+        ensureFileExists(programParams.get("file"));
+    }
+
+    /**
+     * Validates the file exists
+     *
+     * @param file the file
+     * @throws FileNotFoundException in case file does not exist
+     */
+    private static void ensureFileExists(String file) throws FileNotFoundException {
+        File f = new File(file);
+
+        if (!f.exists()) {
+            throw new FileNotFoundException(String.format("File %s does not exist", file));
+        }
+    }
+
+    /**
+     * Validates the required param is defined
+     *
+     * @param param the param
+     */
+    private static void ensureParamDefinition(String param) {
+        if (!programParams.containsKey(param)) {
+            throw new MissingFormatArgumentException(String.format("Missing argument: %s", param));
+        }
     }
 
     /**
