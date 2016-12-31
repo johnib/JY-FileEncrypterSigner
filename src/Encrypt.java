@@ -1,3 +1,9 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -7,6 +13,12 @@ import java.util.LinkedList;
 
 public class Encrypt {
 
+    // true / false params
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private static final LinkedList<String> switches = new LinkedList<>();
+    private static final HashMap<String, String> programParams = new HashMap<>();
+    private static final String passwordParamName = "password";
+    private static final String fileParamName = "file";
     @SuppressWarnings("FieldCanBeLocal")
     private static String guide_message = "Encrypt class\n" +
             "\n" +
@@ -17,24 +29,40 @@ public class Encrypt {
             "    -password           Used as a private key\n" +
             "    -file               File to encrypt";
 
-    // true / false params
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private static LinkedList<String> switches = new LinkedList<>();
-
-    private static HashMap<String, String> programParams = new HashMap<>();
-
     public static void main(String[] args) {
         try {
             Utils.parseParams(args, programParams, switches);
 
+            // TODO: remove before submitting
             programParams.forEach((param, value) -> System.out.println(String.format("%s: %s", param, value)));
 
-            Utils.ensureParamDefinition("password", programParams);
-            Utils.ensureParamDefinition("file", programParams);
-            Utils.ensureFileExists(programParams.get("file"));
+            Utils.ensureParamDefinition(passwordParamName, programParams);
+            Utils.ensureParamDefinition(fileParamName, programParams);
 
         } catch (Exception e) {
             System.out.println(guide_message);
+            System.exit(-1);
+        }
+
+        try {
+            Utils.ensureFileExists(programParams.get("file"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    // TODO: remove
+    static void testStreamHash() {
+        try {
+            StreamDigester sd = new StreamDigester(MessageDigest.getInstance("MD5"));
+            InputStream fip = new FileInputStream(programParams.get(fileParamName));
+
+            byte[] hash = sd.digestStream(fip);
+
+            System.out.println(Utils.bytesToHex(hash));
+        } catch (NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
         }
     }
 }
