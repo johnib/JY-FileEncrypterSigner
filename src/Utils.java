@@ -1,5 +1,5 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingFormatArgumentException;
@@ -11,24 +11,12 @@ final class Utils {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
+    private static final int BUFFER_SIZE = 1024; // bytes
+
     /**
      * Static class
      */
     private Utils() {
-    }
-
-    /**
-     * Validates the file exists
-     *
-     * @param file the file
-     * @throws FileNotFoundException in case file does not exist
-     */
-    static void ensureFileExists(String file) throws FileNotFoundException {
-        File f = new File(file);
-
-        if (!f.exists()) {
-            throw new FileNotFoundException(String.format("File %s does not exist", file));
-        }
     }
 
     /**
@@ -75,5 +63,56 @@ final class Utils {
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    /**
+     * Pipes data from one stream to another
+     *
+     * @param in  the source stream
+     * @param out the destination stream
+     * @throws IOException in case of read / write issues
+     */
+    static void pipeStreams(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int bytesRead;
+        while ((bytesRead = in.read(buffer)) > 0) {
+            out.write(buffer, 0, bytesRead);
+        }
+    }
+
+    /**
+     * Validates source file exists
+     *
+     * @param sourceFilePath the path
+     * @throws IOException in case file does not exist or cannot be read¬
+     */
+    static void ensurePathReadable(Path sourceFilePath) throws IOException {
+        File sourceFile = sourceFilePath.toFile();
+
+        if (!sourceFile.exists()) {
+            throw new FileNotFoundException(String.format("Source file not found %s", sourceFile.getAbsolutePath()));
+        }
+
+        if (!sourceFile.canRead()) {
+            throw new FileNotFoundException(String.format("Source cannot be read %s", sourceFile.getAbsolutePath()));
+        }
+    }
+
+    /**
+     * Validates the destination path can be assigned to a new file.
+     *
+     * @param destFilePath the path
+     * @throws IOException in case path already used by existing file or is not permitted to create new one
+     */
+    static void ensurePathWritable(Path destFilePath) throws IOException {
+        File destFile = destFilePath.toFile();
+
+        if (destFile.exists()) {
+            throw new IllegalArgumentException(String.format("File already exists in path %s", destFilePath.toAbsolutePath()));
+        }
+
+        if (!destFile.createNewFile()) {
+            throw new FileNotFoundException(String.format("File cannot be created %s", destFilePath.toAbsolutePath()));
+        }
     }
 }
