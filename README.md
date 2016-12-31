@@ -1,4 +1,4 @@
-Encrypt Class
+#Encrypt Class
 
 ##Description:
 Encrypts a file using asymmetric algorithm of your choice. 
