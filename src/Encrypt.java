@@ -2,8 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -30,6 +29,8 @@ public class Encrypt {
             "    -file               File to encrypt";
 
     public static void main(String[] args) {
+        /* validate input */
+
         try {
             Utils.parseParams(args, programParams, switches);
 
@@ -50,6 +51,10 @@ public class Encrypt {
             e.printStackTrace();
             System.exit(-1);
         }
+
+        /* end of validate input */
+
+
     }
 
     // TODO: remove
@@ -62,6 +67,24 @@ public class Encrypt {
 
             System.out.println(Utils.bytesToHex(hash));
         } catch (NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO: remove
+    static void testDataSigner() {
+        try {
+            KeyPairGenerator gen = KeyPairGenerator.getInstance("DSA", "SUN");
+            KeyPair pair = gen.generateKeyPair();
+
+            String data = "Jonathan is awesome";
+
+            DataSigner ds = new DataSigner(Signature.getInstance("SHA1withDSA"));
+            byte[] signature = ds.sign(data, pair.getPrivate());
+
+            System.out.println(ds.verify(data, signature, pair.getPublic()));
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
