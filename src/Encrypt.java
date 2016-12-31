@@ -10,20 +10,35 @@ import java.util.MissingFormatArgumentException;
 
 public class Encrypt {
 
+    @SuppressWarnings("FieldCanBeLocal")
+    private static String guide_message = "Encrypt class\n" +
+            "\n" +
+            "Run:\n" +
+            "java Encrypt -password <pass> -file <file path>\n" +
+            "\n" +
+            "Options:\n" +
+            "    -password           Used as a private key\n" +
+            "    -file               File to encrypt";
+
     // true / false params
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private static LinkedList<String> switches = new LinkedList<>();
 
     private static HashMap<String, String> programParams = new HashMap<>();
 
-    public static void main(String[] args) throws Exception {
-        parseParams(args);
+    public static void main(String[] args) {
+        try {
+            parseParams(args);
 
-        programParams.forEach((param, value) -> System.out.println(String.format("%s: %s", param, value)));
+            programParams.forEach((param, value) -> System.out.println(String.format("%s: %s", param, value)));
 
-        ensureParamDefinition("password");
-        ensureParamDefinition("file");
-        ensureFileExists(programParams.get("file"));
+            ensureParamDefinition("password");
+            ensureParamDefinition("file");
+            ensureFileExists(programParams.get("file"));
+
+        } catch (Exception e) {
+            System.out.println(guide_message);
+        }
     }
 
     /**
