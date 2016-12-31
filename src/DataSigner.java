@@ -11,10 +11,10 @@ class DataSigner implements ISigner {
     /**
      * Initializes a new DataSigner instance
      *
-     * @param sign the Signature instance of your choice
+     * @param signature the Signature instance of your choice
      */
-    public DataSigner(Signature sign) {
-        this.signature = sign;
+    public DataSigner(Signature signature) {
+        this.signature = signature;
     }
 
     /**
