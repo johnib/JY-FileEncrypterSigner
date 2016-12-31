@@ -6,7 +6,7 @@ import java.security.SignatureException;
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
-public interface ISigner {
+public interface IDataSigner {
 
     /**
      * Signs the data with the given private key
