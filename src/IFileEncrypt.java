@@ -1,4 +1,4 @@
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.security.InvalidKeyException;
@@ -17,7 +17,7 @@ public interface IFileEncrypt {
      * @throws IOException         in case files are not accessible or read / write issues
      * @throws InvalidKeyException in case of key issues
      */
-    void encrypt(Path sourceFilePath, Path destFilePath, SecretKeySpec key) throws IOException, InvalidKeyException;
+    void encrypt(Path sourceFilePath, Path destFilePath, SecretKey key) throws IOException, InvalidKeyException;
 
     /**
      * Gets the initialization vector used for encryption

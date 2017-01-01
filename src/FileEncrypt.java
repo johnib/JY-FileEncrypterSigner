@@ -1,6 +1,6 @@
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKey;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class FileEncrypt implements IFileEncrypt {
      * @throws InvalidKeyException in case of key issues
      */
     @Override
-    public void encrypt(Path sourceFilePath, Path destFilePath, SecretKeySpec key) throws IOException, InvalidKeyException {
+    public void encrypt(Path sourceFilePath, Path destFilePath, SecretKey key) throws IOException, InvalidKeyException {
         Utils.ensurePathReadable(sourceFilePath);
         Utils.ensurePathWritable(destFilePath);
 
