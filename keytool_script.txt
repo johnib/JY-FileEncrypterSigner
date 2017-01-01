@@ -1,0 +1,11 @@
+keytool -genkeypair -alias alice -keyalg RSA -keystore alice.jks -keysize 2048 -dname "CN=Alice, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -storepass temp123 -keypass -alice1
+
+keytool -genkeypair -alias bob -keyalg RSA -keystore bob.jks -keysize 2048 -dname "CN=Bob, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -storepass temp123 -keypass -bob111
+
+keytool -exportcert -keystore alice.jks -alias alice -file alice.crt -storepass temp123
+
+keytool -exportcert -keystore bob.jks -alias bob -file bob.crt -storepass temp123
+
+keytool -importcert -keystore alice.jks -file bob.crt -alias bob-cert -trustcacerts -storepass temp123 -noprompt
+
+keytool -importcert -keystore bob.jks -file alice.crt -alias alice-cert -trustcacerts -storepass temp123 -noprompt
