@@ -34,7 +34,7 @@ public class Program {
             "    -file               File to encrypt";
 
     public static void main(String[] args) throws Exception {
-        /* validate input */
+        /* input validation */
 
         try {
             Utils.parseParams(args, programParams, switches);
@@ -57,7 +57,9 @@ public class Program {
             System.exit(-1);
         }
 
-        /* end of validate input */
+        /* end of input validation */
+
+
     }
 
     // TODO: remove
