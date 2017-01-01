@@ -4,7 +4,7 @@ import java.security.*;
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
 @SuppressWarnings("WeakerAccess")
-class DataSigner implements IDataSigner {
+public class DataSigner implements IDataSigner {
 
     private final Signature signature;
 

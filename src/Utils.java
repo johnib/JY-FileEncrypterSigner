@@ -7,7 +7,8 @@ import java.util.MissingFormatArgumentException;
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
-final class Utils {
+@SuppressWarnings("WeakerAccess")
+public final class Utils {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
@@ -24,7 +25,7 @@ final class Utils {
      *
      * @param param the param
      */
-    static void ensureParamDefinition(String param, Map<String, String> programParams) {
+    public static void ensureParamDefinition(String param, Map<String, String> programParams) {
         if (!programParams.containsKey(param)) {
             throw new MissingFormatArgumentException(String.format("Missing argument: %s", param));
         }
@@ -35,7 +36,7 @@ final class Utils {
      *
      * @param params the params
      */
-    static void parseParams(String[] params, Map<String, String> programParams, List<String> switches) {
+    public static void parseParams(String[] params, Map<String, String> programParams, List<String> switches) {
         for (int i = 0; i < params.length; i++) {
             String param = params[i];
 
@@ -55,7 +56,7 @@ final class Utils {
         }
     }
 
-    static String bytesToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
@@ -72,7 +73,7 @@ final class Utils {
      * @param out the destination stream
      * @throws IOException in case of read / write issues
      */
-    static void pipeStreams(InputStream in, OutputStream out) throws IOException {
+    public static void pipeStreams(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
         int bytesRead;
         while ((bytesRead = in.read(buffer)) > 0) {
@@ -86,7 +87,7 @@ final class Utils {
      * @param sourceFilePath the path
      * @throws IOException in case file does not exist or cannot be read¬
      */
-    static void ensurePathReadable(Path sourceFilePath) throws IOException {
+    public static void ensurePathReadable(Path sourceFilePath) throws IOException {
         File sourceFile = sourceFilePath.toFile();
 
         if (!sourceFile.exists()) {
@@ -104,7 +105,7 @@ final class Utils {
      * @param destFilePath the path
      * @throws IOException in case path already used by existing file or is not permitted to create new one
      */
-    static void ensurePathWritable(Path destFilePath) throws IOException {
+    public static void ensurePathWritable(Path destFilePath) throws IOException {
         File destFile = destFilePath.toFile();
 
         if (destFile.exists()) {
