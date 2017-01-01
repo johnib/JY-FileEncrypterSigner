@@ -10,10 +10,18 @@ public class StreamDigester implements IStreamDigester {
     private static final int bufferSize = 1024; // bytes
     private MessageDigest messageDigest;
 
-    StreamDigester(MessageDigest md) {
+    @SuppressWarnings("WeakerAccess")
+    public StreamDigester(MessageDigest md) {
         messageDigest = md;
     }
 
+    /**
+     * Digests a data read from a stream until reaching end of stream
+     *
+     * @param stream the stream to read
+     * @return the digested byte array
+     * @throws IOException for stream IO issues
+     */
     @Override
     public byte[] digestStream(InputStream stream) throws IOException {
         byte[] buffer = new byte[bufferSize];

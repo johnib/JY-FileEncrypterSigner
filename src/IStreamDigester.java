@@ -5,5 +5,13 @@ import java.io.InputStream;
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
 public interface IStreamDigester {
+
+    /**
+     * Digests a data read from a stream until reaching end of stream
+     *
+     * @param stream the stream to read
+     * @return the digested byte array
+     * @throws IOException for stream IO issues
+     */
     byte[] digestStream(InputStream stream) throws IOException;
 }
