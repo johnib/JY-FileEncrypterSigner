@@ -56,13 +56,21 @@ public final class Utils {
         }
     }
 
+    /**
+     * Converts a byte array to hex string
+     *
+     * @param bytes the byte array to convert
+     * @return a hex string representing the byte array
+     */
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
+
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
+
         return new String(hexChars);
     }
 
@@ -76,6 +84,7 @@ public final class Utils {
     public static void pipeStreams(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
         int bytesRead;
+
         while ((bytesRead = in.read(buffer)) > 0) {
             out.write(buffer, 0, bytesRead);
         }
