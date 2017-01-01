@@ -1,5 +1,6 @@
 import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,6 +60,8 @@ public class Program {
 
         /* end of input validation */
 
+        // generate encryption password
+        testFileEncryptDecrypt();
 
     }
 
@@ -98,7 +101,10 @@ public class Program {
     static void testFileEncryptDecrypt() throws IOException {
 
         try {
-            SecretKeySpec k = new SecretKeySpec("temp1234temp1234".getBytes(), "AES");
+            KeyGenerator kg = KeyGenerator.getInstance("AES");
+            kg.init(128, SecureRandom.getInstanceStrong());
+
+            SecretKey k = kg.generateKey();
 
             Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
 
@@ -111,7 +117,7 @@ public class Program {
             e.printStackTrace();
         } finally {
             Files.delete(Paths.get("./encrypted"));
-            Files.delete(Paths.get("./decrypted.txt"));
+//            Files.delete(Paths.get("./decrypted.txt"));
         }
     }
 }
