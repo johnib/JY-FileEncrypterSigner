@@ -1,6 +1,5 @@
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
@@ -32,7 +32,7 @@ public class FileDecrypt implements IFileDecrypt {
      * @throws InvalidKeyException in case of key issues
      */
     @Override
-    public void decrypt(Path sourceFilePath, Path destFilePath, SecretKey key, byte[] iv) throws IOException, InvalidKeyException, InvalidAlgorithmParameterException {
+    public void decrypt(Path sourceFilePath, Path destFilePath, Key key, byte[] iv) throws IOException, InvalidKeyException, InvalidAlgorithmParameterException {
         Utils.ensurePathReadable(sourceFilePath);
         Utils.ensurePathWritable(destFilePath);
 

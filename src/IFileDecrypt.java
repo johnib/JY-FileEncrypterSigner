@@ -1,8 +1,8 @@
-import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
@@ -19,5 +19,5 @@ public interface IFileDecrypt {
      * @throws IOException         in case files are not accessible or read / write issues
      * @throws InvalidKeyException in case of key issues
      */
-    void decrypt(Path sourceFilePath, Path destFilePath, SecretKey key, byte[] iv) throws IOException, InvalidKeyException, InvalidAlgorithmParameterException;
+    void decrypt(Path sourceFilePath, Path destFilePath, Key key, byte[] iv) throws IOException, InvalidKeyException, InvalidAlgorithmParameterException;
 }
