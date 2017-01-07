@@ -114,6 +114,7 @@ public class Program {
 
         try {
             Utils.ensurePathReadable(Paths.get(programParams.get("file")));
+
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
