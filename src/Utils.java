@@ -38,7 +38,7 @@ public final class Utils {
      */
     public static void parseParams(String[] params, Map<String, String> programParams, List<String> switches) {
         for (int i = 0; i < params.length; i++) {
-            String param = params[i];
+            String param = params[i].toLowerCase();
 
             if (!param.startsWith("-")) {
                 throw new IllegalArgumentException(String.format("Param: %s should start with '-'", param));

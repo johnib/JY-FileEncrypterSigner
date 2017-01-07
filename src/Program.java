@@ -21,18 +21,26 @@ public class Program {
     private static final LinkedList<String> switches = new LinkedList<>();
     private static final HashMap<String, String> programParams = new HashMap<>();
 
-    private static final String PASSWORD_PARAM_NAME = "password";
-    private static final String FILE_PARAM_NAME = "file";
+    private static final String KEYSTORE_PARAM_NAME = "keystore";
+    private static final String KEYSTORE_PASSWORD_PARAM_NAME = "password";
+    private static final String MY_ALIAS_PARAM_NAME = "myAlias".toLowerCase();
+    private static final String MY_ALIAS_PASSWORD_PARAM_NAME = "myAliasPassword".toLowerCase();
+    private static final String RECIPIENT_ALIAS_PARAM_NAME = "recAlias".toLowerCase();
+    private static final String FILE_PARAM_PATH = "file";
 
     @SuppressWarnings("FieldCanBeLocal")
     private static String guide_message = "FileEncrypt class\n" +
             "\n" +
             "Run:\n" +
-            "java FileEncrypt -password <pass> -file <file path>\n" +
+            "java FileEncrypt -keystore <keystore file> -password <pass> -myAlias <your keystore alias> -myAliasPassword <your alias password> -file <file path>\n" +
             "\n" +
             "Options:\n" +
-            "    -password           Used as a private key\n" +
-            "    -file               File to encrypt";
+            "    -keystore           Key Store file path\n" +
+            "    -password           Key Store password\n" +
+            "    -myAlias            Key Store alias for my cert with private key\n" +
+            "    -myAliasPassword    alias password for my cert with private key (if not defined, using keystore password)\n" +
+            "    -recAlias           Key Store alias for recipient cert\n" +
+            "    -file               File to encrypt and sign";
 
     public static void main(String[] args) throws Exception {
         /* input validation */
