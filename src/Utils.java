@@ -62,6 +62,7 @@ public final class Utils {
      * @param bytes the byte array to convert
      * @return a hex string representing the byte array
      */
+    @SuppressWarnings("unused")
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
 

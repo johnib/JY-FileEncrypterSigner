@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class StreamDigester implements IStreamDigester {
 
     private static final int bufferSize = 1024; // bytes
@@ -18,7 +19,6 @@ public class StreamDigester implements IStreamDigester {
      *
      * @param md the given MessageDigest object
      */
-    @SuppressWarnings("WeakerAccess")
     public StreamDigester(MessageDigest md) {
         messageDigest = md;
     }
@@ -29,7 +29,7 @@ public class StreamDigester implements IStreamDigester {
      * @param algorithm the requested MessageDigest algorithm
      * @throws NoSuchAlgorithmException in case algorithm not found
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings("unused")
     public StreamDigester(String algorithm) throws NoSuchAlgorithmException {
         this(MessageDigest.getInstance(algorithm));
     }

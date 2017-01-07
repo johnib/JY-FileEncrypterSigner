@@ -94,9 +94,6 @@ public class Program {
         try {
             Utils.parseParams(args, programParams, switches);
 
-            // TODO: remove before submitting
-            programParams.forEach((param, value) -> System.out.println(String.format("%s: %s", param, value)));
-
             Utils.ensureParamDefinition(KEYSTORE_PARAM_NAME, programParams);
             Utils.ensureParamDefinition(KEYSTORE_PASSWORD_PARAM_NAME, programParams);
             Utils.ensureParamDefinition(MY_ALIAS_PASSWORD_PARAM_NAME, programParams);
