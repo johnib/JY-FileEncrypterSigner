@@ -27,8 +27,9 @@ public class StreamDigester implements IStreamDigester {
         byte[] buffer = new byte[bufferSize];
         messageDigest.reset();
 
-        while (stream.read(buffer) > 0) {
-            messageDigest.update(buffer);
+        int bytesRead;
+        while ((bytesRead = stream.read(buffer)) > 0) {
+            messageDigest.update(buffer, 0, bytesRead);
         }
 
         return messageDigest.digest();
