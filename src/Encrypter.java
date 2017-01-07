@@ -64,7 +64,7 @@ public class Encrypter {
         this.keyGenerator = keyGenerator;
         this.secureRandom = secureRandom;
         this.symmetricKeyLength = symmetricKeyLengthBits;
-        this.gson = new GsonBuilder().create();
+        this.gson = new GsonBuilder().disableHtmlEscaping().create();
     }
 
     /**
