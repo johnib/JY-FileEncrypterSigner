@@ -129,7 +129,8 @@ public class Encrypter {
 
         // encrypt file and persist the IV
         fileEncrypt.encrypt(filePath, output, symmetricKey);
-        config.put("iv", Base64.encodeToString(fileEncrypt.getIV()));
+        byte[] encryptedIV = asymmetricCipher.doFinal(fileEncrypt.getIV());
+        config.put("iv", Base64.encodeToString(encryptedIV));
 
         // write config file
         createConfigFileFor(filePath, config);
