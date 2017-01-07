@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
@@ -14,4 +15,13 @@ public interface IStreamDigester {
      * @throws IOException for stream IO issues
      */
     byte[] digestStream(InputStream stream) throws IOException;
+
+    /**
+     * Digests a data read from a file
+     *
+     * @param filePath the file to digest
+     * @return the digested byte array
+     * @throws IOException for stream IO issues
+     */
+    byte[] digestStream(Path filePath) throws IOException;
 }
