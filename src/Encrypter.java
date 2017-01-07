@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.Certificate;
-import java.util.Base64;
 import java.util.HashMap;
 
 /**
@@ -21,6 +20,7 @@ import java.util.HashMap;
 public class Encrypter {
 
     private static final String CONFIG_FILE_TEMPLATE = "%s-config.json";
+    private static final java.util.Base64.Encoder Base64 = java.util.Base64.getEncoder();
 
     private final KeyStore keystore;
     private final Cipher asymmetricCipher;
@@ -77,6 +77,8 @@ public class Encrypter {
      * @throws KeyStoreException for bad private key password
      */
     public void initialize(String privateKeyAlias, String privateKeyPassword, String recipientCertificateAlias) throws KeyStoreException {
+        System.out.print("Initializing encrypter: ...");
+
         if (!keystore.isKeyEntry(privateKeyAlias)) {
             throw new KeyStoreException("private key alias not found in keystore");
         }
@@ -94,6 +96,8 @@ public class Encrypter {
 
         recipientCertificate = keystore.getCertificate(recipientCertificateAlias);
         keyGenerator.init(symmetricKeyLength, secureRandom);
+
+        System.out.println("DONE");
     }
 
     /**
@@ -106,12 +110,14 @@ public class Encrypter {
      * @throws SignatureException  for signature issues
      */
     public void encryptAndSign(Path filePath, Path output) throws IOException, InvalidKeyException, SignatureException, BadPaddingException, IllegalBlockSizeException {
+        System.out.println("Encrypting and signing file: " + filePath.getFileName());
+
         final HashMap<String, String> config = new HashMap<>();
 
         // sign content
         byte[] fileDigest = streamDigester.digestStream(filePath);
         byte[] fileSignature = dataSigner.sign(fileDigest, (PrivateKey) myPrivateKey);
-        config.put("sig", Base64.getEncoder().encodeToString(fileSignature));
+        config.put("sig", Base64.encodeToString(fileSignature));
 
         // generate symmetric key
         Key symmetricKey = keyGenerator.generateKey();
@@ -119,10 +125,11 @@ public class Encrypter {
         // encrypt symmetric key with recipient's public key
         asymmetricCipher.init(Cipher.ENCRYPT_MODE, recipientCertificate.getPublicKey());
         byte[] symmetricKeyEncrypted = asymmetricCipher.doFinal(symmetricKey.getEncoded());
-        config.put("key", Base64.getEncoder().encodeToString(symmetricKeyEncrypted));
+        config.put("key", Base64.encodeToString(symmetricKeyEncrypted));
 
-        // encrypt file
+        // encrypt file and persist the IV
         fileEncrypt.encrypt(filePath, output, symmetricKey);
+        config.put("iv", Base64.encodeToString(fileEncrypt.getIV()));
 
         // write config file
         createConfigFileFor(filePath, config);
@@ -137,11 +144,14 @@ public class Encrypter {
      */
     private void createConfigFileFor(Path filePath, HashMap<String, String> config) throws IOException {
         final Path configFile = Paths.get(String.format(CONFIG_FILE_TEMPLATE, filePath.toAbsolutePath()));
-        final FileOutputStream outputStream = new FileOutputStream(configFile.toFile());
+        System.out.print(String.format("Writing configuration file to: %s\t...", configFile.toAbsolutePath()));
 
+        final FileOutputStream outputStream = new FileOutputStream(configFile.toFile());
         final String configJson = gson.toJson(config);
 
         outputStream.write(configJson.getBytes());
         outputStream.close();
+
+        System.out.println("DONE");
     }
 }

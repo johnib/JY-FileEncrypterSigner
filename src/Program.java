@@ -4,7 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.*;
+import java.security.KeyStore;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.security.Signature;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -43,19 +46,17 @@ public class Program {
         validateInput(args);
 
         final KeyStore keystore = loadKeystore("JKS", "SUN");
+
+        System.out.print("Initializing cryptography instances ...");
         final Cipher symmetricCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         final Cipher asymmetricCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         final MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         final Signature signature = Signature.getInstance("SHA1withRSA");
         final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        final SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
         final int symmetricKeyLength = 128; // bits
 
-        SecureRandom secureRandom;
-        try {
-            secureRandom = SecureRandom.getInstanceStrong();
-        } catch (NoSuchAlgorithmException e) {
-            secureRandom = SecureRandom.getInstance("SHA1PRNG");
-        }
+        System.out.println("DONE");
 
         final Encrypter encrypter = new Encrypter(
                 keystore,
@@ -80,6 +81,7 @@ public class Program {
     }
 
     private static KeyStore loadKeystore(String type, String provider) throws Exception {
+        System.out.print("Loading keystore ...");
         final KeyStore keystore = KeyStore.getInstance(type, provider);
         final Path keystoreFilePath = Paths.get(programParams.get(KEYSTORE_PARAM_NAME));
         final String keystorePassword = programParams.get(KEYSTORE_PASSWORD_PARAM_NAME);
@@ -87,10 +89,14 @@ public class Program {
         FileInputStream fip = new FileInputStream(keystoreFilePath.toFile());
         keystore.load(fip, keystorePassword.toCharArray());
 
+        System.out.println("DONE");
+
         return keystore;
     }
 
     private static void validateInput(String[] args) {
+        System.out.print("Validating input arguments ...");
+
         try {
             Utils.parseParams(args, programParams, switches);
 
@@ -112,5 +118,7 @@ public class Program {
             e.printStackTrace();
             System.exit(-1);
         }
+
+        System.out.println("DONE");
     }
 }
