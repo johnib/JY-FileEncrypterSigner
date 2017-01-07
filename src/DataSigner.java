@@ -18,6 +18,16 @@ public class DataSigner implements IDataSigner {
     }
 
     /**
+     * Initializes a new DataSigner instance
+     *
+     * @param algorithm the requested Signature algorithm
+     * @throws NoSuchAlgorithmException in case algorithm not found
+     */
+    public DataSigner(String algorithm) throws NoSuchAlgorithmException {
+        this(Signature.getInstance(algorithm));
+    }
+
+    /**
      * Signs the data with the given private key
      *
      * @param data       the data to be signed
