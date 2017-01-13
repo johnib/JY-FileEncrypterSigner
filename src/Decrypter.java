@@ -93,15 +93,30 @@ public class Decrypter {
      * @param encryptedFile the path to the encrypted file
      * @param configFile    the path to the config file
      */
-    public void decryptAndValidate(Path encryptedFile, Path configFile, Path output) throws IOException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Map<String, String> config = deserializeConfigFile(configFile);
+    public void decryptAndValidate(Path encryptedFile, Path configFile, Path output) throws IOException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, SignatureException {
+        System.out.println("Decrypting and verifying signature of file: " + encryptedFile.getFileName());
 
+        final Map<String, String> config = deserializeConfigFile(configFile);
+
+        // decrypt symmetric key and IV
         asymmetricCipher.init(Cipher.DECRYPT_MODE, myPrivateKey);
         byte[] iv = asymmetricCipher.doFinal(Base64.decode(config.get("iv")));
         byte[] decryptedSecretKey = asymmetricCipher.doFinal(Base64.decode(config.get("key")));
         Key key = new SecretKeySpec(decryptedSecretKey, "AES");
 
+        // decrypt file
         fileDecrypt.decrypt(encryptedFile, output, key, iv);
+
+        // validate file signature
+        byte[] fileDigest = streamDigester.digestStream(output);
+        byte[] providedSignature = Base64.decode(config.get("sig"));
+        boolean fileDigestValid = dataSigner.verify(fileDigest, providedSignature, senderCertificate.getPublicKey());
+
+        if (!fileDigestValid) {
+            throw new SignatureException("File's content signature is invalid");
+        }
+
+        System.out.println("File " + encryptedFile.getFileName() + " decrypted and validated successfully");
     }
 
     /**
