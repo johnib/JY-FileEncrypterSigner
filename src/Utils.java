@@ -44,6 +44,8 @@ public final class Utils {
                 throw new IllegalArgumentException(String.format("Param: %s should start with '-'", param));
             }
 
+            param = param.substring(1);
+
             if (switches.contains(param)) {
                 programParams.put(param, "true");
 
@@ -51,7 +53,7 @@ public final class Utils {
                 i++;
 
                 String paramValue = params[i];
-                programParams.put(param.substring(1), paramValue);
+                programParams.put(param, paramValue);
             }
         }
     }
