@@ -19,7 +19,7 @@ import java.util.HashMap;
 @SuppressWarnings("WeakerAccess")
 public class Encrypter {
 
-    private static final String CONFIG_FILE_TEMPLATE = "%s-config.json";
+    private static final String CONFIG_FILE_TEMPLATE = "%s-encrypted-config.json";
     private static final java.util.Base64.Encoder Base64 = java.util.Base64.getEncoder();
 
     private final KeyStore keystore;

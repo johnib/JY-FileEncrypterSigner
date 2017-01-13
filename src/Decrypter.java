@@ -96,11 +96,10 @@ public class Decrypter {
     public void decryptAndValidate(Path encryptedFile, Path configFile, Path output) throws IOException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Map<String, String> config = deserializeConfigFile(configFile);
 
-        byte[] encryptedSecretKey = Base64.decode(config.get("key"));
         asymmetricCipher.init(Cipher.DECRYPT_MODE, myPrivateKey);
-        byte[] decryptedSecretKey = asymmetricCipher.doFinal(encryptedSecretKey);
+        byte[] iv = asymmetricCipher.doFinal(Base64.decode(config.get("iv")));
+        byte[] decryptedSecretKey = asymmetricCipher.doFinal(Base64.decode(config.get("key")));
         Key key = new SecretKeySpec(decryptedSecretKey, "AES");
-        byte[] iv = Base64.decode(config.get("iv"));
 
         fileDecrypt.decrypt(encryptedFile, output, key, iv);
     }
