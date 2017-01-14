@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
  */
-public class Program {
+public class EncryptTool {
 
     // true / false params
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
@@ -25,7 +25,7 @@ public class Program {
     private static final Map<String, String> programParams = new HashMap<>();
 
     private static final String ENCRYPT_SWITCH_NAME = "encrypt";
-    private static final String DECRYPT_SWTICH_NAME = "decrypt";
+    private static final String DECRYPT_SWITCH_NAME = "decrypt";
     private static final String KEYSTORE_PARAM_NAME = "keystore";
     private static final String KEYSTORE_PASSWORD_PARAM_NAME = "password";
     private static final String MY_ALIAS_PARAM_NAME = "myAlias".toLowerCase();
@@ -37,8 +37,8 @@ public class Program {
     private static String guide_message = "FileEncrypt tool\n" +
             "\n" +
             "Run:\n" +
-            "java FileEncrypt -encrypt -keystore <keystore file> -password <pass> -myAlias <your keystore alias> -myAliasPassword <your alias password> -file <file path>\n" +
-            "java FileEncrypt -decrypt -keystore <keystore file> -password <pass> -myAlias <your keystore alias> -myAliasPassword <your alias password> -file <file path>\n" +
+            "java EncryptTool -encrypt -keystore <keystore file> -password <pass> -myAlias <your keystore alias> -myAliasPassword <your alias password> -file <file path>\n" +
+            "java EncryptTool -decrypt -keystore <keystore file> -password <pass> -myAlias <your keystore alias> -myAliasPassword <your alias password> -file <file path>\n" +
             "\n" +
             "Options:\n" +
             "    -encrypt            Encrypts the file and creates a signature\n" +
@@ -89,7 +89,7 @@ public class Program {
             final Path encryptedFilePath = Paths.get(String.format("%s-encrypted", sourceFilePath.toAbsolutePath()));
             encrypter.encryptAndSign(sourceFilePath, encryptedFilePath);
 
-        } else if (programParams.containsKey(DECRYPT_SWTICH_NAME)) {
+        } else if (programParams.containsKey(DECRYPT_SWITCH_NAME)) {
 
             final Decrypter decrypter = new Decrypter(
                     keystore,
@@ -140,8 +140,8 @@ public class Program {
             Utils.ensureParamDefinition(RECIPIENT_ALIAS_PARAM_NAME, programParams);
             Utils.ensureParamDefinition(FILE_PARAM_PATH, programParams);
 
-            if ((programParams.containsKey(ENCRYPT_SWITCH_NAME) && programParams.containsKey(DECRYPT_SWTICH_NAME))
-                    || !programParams.containsKey(ENCRYPT_SWITCH_NAME) && !programParams.containsKey(DECRYPT_SWTICH_NAME)) {
+            if ((programParams.containsKey(ENCRYPT_SWITCH_NAME) && programParams.containsKey(DECRYPT_SWITCH_NAME))
+                    || !programParams.containsKey(ENCRYPT_SWITCH_NAME) && !programParams.containsKey(DECRYPT_SWITCH_NAME)) {
 
                 throw new MissingFormatArgumentException("Either -encrypt or -decrypt should be used, but not both");
             }
