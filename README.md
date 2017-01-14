@@ -38,6 +38,7 @@ Options:
 ```
 
 ## Contribution
+* Reorganize constants and strings used around the code
 * Unit test coverage
 * Improve usage interface
     * Better parameter names
