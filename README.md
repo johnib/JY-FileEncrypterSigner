@@ -1,9 +1,10 @@
 #FileEncrypt Class
 
 ##Description:
-1. Encrypts / Decrypts a file using asymmetric algorithm of your choice.
+1. Encrypts / Decrypts a file using symmetric algorithm of your choice.
 2. Signs and validates file's contents.
-
+3. Encrypts the symmetric key + signature using asymmetric algorithm of your choice.
+4. Prepares a JSON with all the relevant information for the receiver of how to decrypt the file.
 ## Run
 ### Using JAR:
 ```
