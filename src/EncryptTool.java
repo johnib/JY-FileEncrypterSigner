@@ -54,6 +54,20 @@ public class EncryptTool {
         final KeyStore keystore = loadKeystore("JKS", "SUN");
 
         System.out.print("Initializing cryptography instances ...");
+
+        //
+        // Support for padding is in order as the encrypted content size is not limited.
+        // For file encryption - used AES CBC so no patterns can be visible on the encrypted output.
+        // For secret encryption and delivery in insecure channel - used RSA.
+        // For message digest used SHA-256 which is the best available in terms of collisions.
+        // Same for signature.
+        //
+        // For SecureRandom, used by the AES key generator, I haven't specified the algorithm but let the runtime choose
+        // the best available for me.
+        //
+        // Symmetric key length is 128 bits just for the demo - it can be 256 for AES - but requires additional
+        // packages to be installed.
+        //
         final Cipher symmetricCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         final Cipher asymmetricCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         final MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
