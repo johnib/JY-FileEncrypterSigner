@@ -1,13 +1,11 @@
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.KeyStore;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
-import java.security.Signature;
+import java.security.*;
 import java.util.*;
 
 /**
@@ -108,7 +106,18 @@ public class EncryptTool {
             final Path decryptedFile = Paths.get(String.format("%s/decrypted.txt", encryptedSourceFile.getParent().toAbsolutePath()));
             final Path configFilePath = Paths.get(String.format("%s-config.json", encryptedSourceFile.toAbsolutePath()));
 
-            decrypter.decryptAndValidate(encryptedSourceFile, configFilePath, decryptedFile);
+            try {
+                decrypter.decryptAndValidate(encryptedSourceFile, configFilePath, decryptedFile);
+
+            } catch (SignatureException e) {
+                // file's content was tampered with
+                System.err.println(e.getMessage());
+
+                // requested by instructor to overwrite the decrypted file's content with the error message
+                FileOutputStream outputStream = new FileOutputStream(decryptedFile.toFile(), false);
+                outputStream.write(e.getMessage().getBytes());
+                outputStream.close();
+            }
         }
 
         System.exit(1);
