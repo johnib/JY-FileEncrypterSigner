@@ -3,6 +3,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 
+@SuppressWarnings("WeakerAccess")
 public interface IDataSigner {
 
     /**

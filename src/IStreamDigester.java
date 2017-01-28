@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 
+@SuppressWarnings("WeakerAccess")
 public interface IStreamDigester {
 
     /**

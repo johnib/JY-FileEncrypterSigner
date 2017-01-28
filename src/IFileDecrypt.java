@@ -4,6 +4,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 
+@SuppressWarnings("WeakerAccess")
 public interface IFileDecrypt {
 
     /**

@@ -3,6 +3,7 @@ import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.Key;
 
+@SuppressWarnings("WeakerAccess")
 public interface IFileEncrypt {
 
     /**

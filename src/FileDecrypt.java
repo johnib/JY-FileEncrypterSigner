@@ -9,6 +9,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 
+@SuppressWarnings("WeakerAccess")
 public class FileDecrypt implements IFileDecrypt {
 
     private final Cipher cipher;

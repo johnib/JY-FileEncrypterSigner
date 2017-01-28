@@ -20,6 +20,7 @@ public class DataSigner implements IDataSigner {
      * @param algorithm the requested Signature algorithm
      * @throws NoSuchAlgorithmException in case algorithm not found
      */
+    @SuppressWarnings("unused")
     public DataSigner(String algorithm) throws NoSuchAlgorithmException {
         this(Signature.getInstance(algorithm));
     }
