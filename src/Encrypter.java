@@ -130,17 +130,17 @@ public class Encrypter {
         config.put("iv", Base64.encodeToString(encryptedIV));
 
         // write config file
-        createConfigFileFor(filePath, config);
+        createConfigFileFor(config, filePath);
     }
 
     /**
      * Serializes the config and writes it to disk
      *
-     * @param filePath the original file for which the config is relevant
      * @param config   the config map
+     * @param filePath the original file for which the config is relevant
      * @throws IOException for IO issues
      */
-    private void createConfigFileFor(Path filePath, HashMap<String, String> config) throws IOException {
+    private void createConfigFileFor(HashMap<String, String> config, Path filePath) throws IOException {
         final Path configFile = Paths.get(String.format(CONFIG_FILE_TEMPLATE, filePath.toAbsolutePath()));
         System.out.print(String.format("Writing configuration file to: %s\t...", configFile.toAbsolutePath()));
 
