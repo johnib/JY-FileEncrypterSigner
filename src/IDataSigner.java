@@ -3,9 +3,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 
-/**
- * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
- */
 public interface IDataSigner {
 
     /**

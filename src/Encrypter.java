@@ -13,9 +13,6 @@ import java.security.*;
 import java.security.cert.Certificate;
 import java.util.HashMap;
 
-/**
- * Created by Jonathan Yaniv and Arnon Nir on 07/01/2017.
- */
 @SuppressWarnings("WeakerAccess")
 public class Encrypter {
 

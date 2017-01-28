@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingFormatArgumentException;
 
-/**
- * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
- */
 @SuppressWarnings("WeakerAccess")
 public final class Utils {
 

@@ -1,8 +1,5 @@
 import java.security.*;
 
-/**
- * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
- */
 @SuppressWarnings("WeakerAccess")
 public class DataSigner implements IDataSigner {
 

@@ -5,9 +5,6 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by Jonathan Yaniv and Arnon Nir on 31/12/2016.
- */
 @SuppressWarnings("WeakerAccess")
 public class StreamDigester implements IStreamDigester {
 
